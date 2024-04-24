@@ -43,6 +43,7 @@ namespace ConsoleApp1
         public void DisplayProducts()
         {
             //я не хотел использовать var но он сам хочет вставиться 
+            //вар нам нужен)))
             foreach (var product in products)
             {
                 Console.WriteLine($"Product:{product.Name},Type:{product.Type},Mass:{product.Quantity},Price:{product.Price}");
