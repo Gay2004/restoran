@@ -71,7 +71,7 @@ namespace ConsoleApp1
                             }
                             Console.WriteLine("Invalid price input, please enter a valid decimal.");
                         }
-
+                                                    
                         productService.AddProduct(nameToAdd, (ProductType)type_product, quantity_product, priceToAdd);
                         break;
                     case "2":
@@ -95,6 +95,7 @@ namespace ConsoleApp1
                         int newTypeInt;
                         while (true)
                         {
+                            Console.WriteLine("Type:1.Vegetable,2.Fruit,3.Meat,4.Spice");
                             Console.Write("Enter new product type (integer): ");
                             if (int.TryParse(Console.ReadLine(), out newTypeInt))
                             {

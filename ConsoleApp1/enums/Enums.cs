@@ -8,9 +8,9 @@ namespace ConsoleApp1.enums
 {
     public enum ProductType
     {
-        Vegetable,
-        Fruit,
-        Meat,
-        Spice
+        Vegetable = 1,
+        Fruit = 2,
+        Meat = 3,
+        Spice=4
     }
 }
