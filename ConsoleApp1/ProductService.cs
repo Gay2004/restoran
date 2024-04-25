@@ -40,12 +40,13 @@ namespace ConsoleApp1
 
         }
 
-        public bool UpdateProduct(string name, ProductType newType, decimal newPrice)
+        public bool UpdateProduct(string name, ProductType newType,decimal newQuantity, decimal newPrice)
         {
             Product productToUpdate = products.FirstOrDefault(p => p.Name == name);
             if (productToUpdate != null)
             {
                 productToUpdate.Type = newType;
+                productToUpdate.Quantity = newQuantity;
                 productToUpdate.Price = newPrice;
                 Console.WriteLine("Product has been updated");
                 return true;
@@ -66,5 +67,6 @@ namespace ConsoleApp1
                 Console.WriteLine($"Product:{product.Name},Type:{product.Type},Mass:{product.Quantity},Price:{product.Price}");
             }
         }
+        
     }
 }
