@@ -40,6 +40,23 @@ namespace ConsoleApp1
 
         }
 
+        public bool UpdateProduct(string name, ProductType newType, decimal newPrice)
+        {
+            Product productToUpdate = products.FirstOrDefault(p => p.Name == name);
+            if (productToUpdate != null)
+            {
+                productToUpdate.Type = newType;
+                productToUpdate.Price = newPrice;
+                Console.WriteLine("Product has been updated");
+                return true;
+            }
+            else
+            {
+                Console.WriteLine("Product not found");
+                return false;
+            }
+        }
+
         public void DisplayProducts()
         {
             //я не хотел использовать var но он сам хочет вставиться 
