@@ -20,7 +20,6 @@ namespace ConsoleApp1
         public void AddProduct(string name, ProductType type,decimal quantity,decimal price)
         {
             products.Add(new Product(name, type, quantity, price));
-            Console.WriteLine("Product has added ");
         }
 
         public bool RemoveProduct(string name)
@@ -62,7 +61,7 @@ namespace ConsoleApp1
         {
             //я не хотел использовать var но он сам хочет вставиться 
             //вар нам нужен)))
-            foreach (var product in products)
+            foreach (Product product in products)
             {
                 Console.WriteLine($"Product:{product.Name},Type:{product.Type},Mass:{product.Quantity},Price:{product.Price}");
             }

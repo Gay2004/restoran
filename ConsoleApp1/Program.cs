@@ -29,6 +29,7 @@ namespace ConsoleApp1
                 Console.WriteLine("2: Remove a product");
                 Console.WriteLine("3: Update a product");
                 Console.WriteLine("4: Exit");
+                Console.WriteLine("5: DisplayProducts");
                 Console.Write("Enter your choice: ");
                 string input = Console.ReadLine();
 
@@ -137,6 +138,11 @@ namespace ConsoleApp1
                         break;
                     case "4":
                         exit = true;
+                        break;
+
+
+                    case "5":
+                        productService.DisplayProducts();
                         break;
                     default:
                         Console.WriteLine("INVALID CHOICE");
