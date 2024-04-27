@@ -39,10 +39,9 @@ namespace ConsoleApp1
             foreach (Dish dish in dishes)
             {
                 Console.WriteLine($"Dish: {dish.Name}");
-                Console.WriteLine("Ingredients:");
                 foreach (Product  ingredient in dish.Ingredients)
                 {
-                    Console.WriteLine($" - {ingredient.Name},Quantity: {ingredient.Quantity}");
+                    Console.WriteLine($"Ingredient - {ingredient.Name},Quantity: {ingredient.Quantity},Total Price: {ingredient.Price}");
                 }
                 Console.WriteLine();
 
@@ -55,12 +54,13 @@ namespace ConsoleApp1
             if (dish != null)
             {
                 dish.AddIngredient(product, quantity);
-                Console.WriteLine($"Ingredient has been added to dish: {dishName} ");
+                decimal totalCost = dish.CalculateCost();
             }
             else
             {
                 Console.WriteLine("Dish not found");
             }
         }
+
     }
 }

@@ -17,9 +17,6 @@ namespace ConsoleApp1
             productService.AddProduct("Apple", ProductType.Fruit, 10, 150);
             productService.AddProduct("Pepper", ProductType.Spice, 25, 200);
 
-            productService.DisplayProducts();
-            productService.RemoveProduct("Apple");
-            productService.DisplayProducts();
 
             bool exit = false;
             while (!exit)
@@ -137,7 +134,6 @@ namespace ConsoleApp1
                         }
                         break;
                     case "4":
-                        exit = true;
                         break;
 
 
