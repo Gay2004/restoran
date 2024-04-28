@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ConsoleApp1.DISHES;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,25 +11,27 @@ namespace ConsoleApp1
     {
         public string Name;
 
-        public  List<Product> Ingredients = new List<Product>();
+        public List<DishIngredient> Ingredients;
 
         public Dish(string name)
         {
             Name = name;
-            Ingredients = new List<Product>();
+            Ingredients = new List<DishIngredient>();
         }
 
-        public void AddIngredient(Product product, decimal quantity)
+        public void AddIngredient(Product product,decimal quantity)
         {
-            Ingredients.Add(new Product(product.Name,product.Type, quantity,product.Price));
+                Ingredients.Add(new DishIngredient(product, quantity));
+                Console.WriteLine($"Ingredient '{product.Name}' with quantity {quantity} added to the dish '{Name}'.");
         }
+       
 
         public decimal CalculateCost()
         {
             decimal totalCost = 0;
-            foreach (Product ingredient in Ingredients)
+            foreach (DishIngredient ingredient in Ingredients)
             {
-                totalCost += ingredient.Price * ingredient.Quantity;
+                totalCost += ingredient.Product.Price * ingredient.QuantityUsed;
             }
             return totalCost;
         }

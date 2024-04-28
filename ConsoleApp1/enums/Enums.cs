@@ -11,6 +11,7 @@ namespace ConsoleApp1.enums
         Vegetable = 1,
         Fruit = 2,
         Meat = 3,
-        Spice=4
+        Spice=4,
+        Other = 5,
     }
 }

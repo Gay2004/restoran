@@ -15,11 +15,17 @@ namespace ConsoleApp1
         public ProductService()
         {
             products = new List<Product>();
+
+            products.Add(new Product("Tomato", ProductType.Vegetable, 1000, 0.50m));
+            products.Add(new Product("Chicken Breast", ProductType.Meat, 500, 5.00m));
+            products.Add(new Product("Apple tree", ProductType.Fruit, 200, 3.00m));
+            products.Add(new Product("Basil", ProductType.Spice, 100, 1.00m));
         }
 
-        public void AddProduct(string name, ProductType type,decimal quantity,decimal price)
+        public void AddProduct(string name, ProductType type, decimal quantity, decimal price)
         {
             products.Add(new Product(name, type, quantity, price));
+            Console.WriteLine("Product has been added.");
         }
 
         public bool RemoveProduct(string name)
@@ -28,7 +34,7 @@ namespace ConsoleApp1
             if (productToRemove != null)
             {
                 products.Remove(productToRemove);
-                Console.WriteLine($"Product has been removed:{name}.");
+                Console.WriteLine($"Product has been removed: {name}.");
                 return true;
             }
             else
@@ -36,10 +42,9 @@ namespace ConsoleApp1
                 Console.WriteLine("Product not found.");
                 return false;
             }
-
         }
 
-        public bool UpdateProduct(string name, ProductType newType,decimal newQuantity, decimal newPrice)
+        public bool UpdateProduct(string name, ProductType newType, decimal newQuantity, decimal newPrice)
         {
             Product productToUpdate = products.FirstOrDefault(p => p.Name == name);
             if (productToUpdate != null)
@@ -47,25 +52,27 @@ namespace ConsoleApp1
                 productToUpdate.Type = newType;
                 productToUpdate.Quantity = newQuantity;
                 productToUpdate.Price = newPrice;
-                Console.WriteLine("Product has been updated");
+                Console.WriteLine("Product has been updated.");
                 return true;
             }
             else
             {
-                Console.WriteLine("Product not found");
+                Console.WriteLine("Product not found.");
                 return false;
             }
         }
 
+        public Product GetProductByName(string name)
+        {
+            return products.FirstOrDefault(p => p.Name == name);
+        }
+
         public void DisplayProducts()
         {
-            //я не хотел использовать var но он сам хочет вставиться 
-            //вар нам нужен)))
             foreach (Product product in products)
             {
-                Console.WriteLine($"Product:{product.Name},Type:{product.Type},Mass:{product.Quantity},Price:{product.Price}");
+                Console.WriteLine($"Product: {product.Name}, Type: {product.Type}, Quantity: {product.Quantity}, Price: {product.Price}");
             }
         }
-        
     }
 }

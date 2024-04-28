@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ConsoleApp1.DISHES;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -35,16 +36,17 @@ namespace ConsoleApp1
 
 
         public void DisplayDishes()
-        {   
+        {
             foreach (Dish dish in dishes)
             {
                 Console.WriteLine($"Dish: {dish.Name}");
-                foreach (Product  ingredient in dish.Ingredients)
+       
+                foreach (DishIngredient ingredient in dish.Ingredients)
                 {
-                    Console.WriteLine($"Ingredient - {ingredient.Name},Quantity: {ingredient.Quantity},Total Price: {ingredient.Price}");
+                    Console.WriteLine($" Ingredient: {ingredient.Product.Name}, Quantity: {ingredient.QuantityUsed}");
+                    Console.Write("");
                 }
-                Console.WriteLine();
-
+                Console.WriteLine($"Total cost: {dish.CalculateCost()}");
             }
         }
 
@@ -60,6 +62,11 @@ namespace ConsoleApp1
             {
                 Console.WriteLine("Dish not found");
             }
+        }
+
+        public Dish GetDishByName(string dishName)
+        {
+            return dishes.FirstOrDefault(d => d.Name == dishName);
         }
 
     }
