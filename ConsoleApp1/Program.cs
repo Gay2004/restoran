@@ -9,18 +9,9 @@ namespace ConsoleApp1
 {
     class Program
     {
-        static Chef chef; // Объявляем шефа на уровне класса
-
         static void Main(string[] args)
         {
-            // Создаем два ресторана с поваром chef
-            Restaurant restaurant1 = new Restaurant("KFC", chef);
-            Restaurant restaurant2 = new Restaurant("MAC", chef);
-
-            // Создаем список ресторанов
-            List<Restaurant> restaurants = new List<Restaurant> { restaurant1, restaurant2 };
-
-            // Создаем сервисы для продуктов и меню
+            RestaurantService restaurantService = new RestaurantService();
             ProductService productService = new ProductService();
             MenuService menuService = new MenuService();
 
@@ -31,7 +22,7 @@ namespace ConsoleApp1
                 Console.WriteLine("\nChoose one option");
                 Console.WriteLine("1: Product operations");
                 Console.WriteLine("2: Dish operations");
-                Console.WriteLine("3: View restaurants");
+                Console.WriteLine("3: Restaurant operation");
                 Console.WriteLine("4: Exit");
                 Console.Write("Enter your choice: ");
                 string input = Console.ReadLine();
@@ -45,7 +36,7 @@ namespace ConsoleApp1
                         DishOperations(menuService, productService);
                         break;
                     case "3":
-                        ViewRestaurants(restaurants);
+                        RestaurantOperation(restaurantService);
                         break;
                     case "4":
                         exit = true;
@@ -57,53 +48,65 @@ namespace ConsoleApp1
             }
         }
 
-        static void ViewRestaurants(List<Restaurant> restaurants)
+        static void RestaurantOperation(RestaurantService restaurantService)
         {
-            Console.WriteLine("Restaurants:");
-            for (int i = 0; i < restaurants.Count; i++)
-            {
-                Console.WriteLine($"{i + 1}: {restaurants[i].Name}");
-            }
-
-            Console.WriteLine("Select an option:");
-            Console.WriteLine("1: Add a new restaurant");
+            Console.WriteLine("\nProduct Operations:");
+            Console.WriteLine("1: Add a restaurant");
             Console.WriteLine("2: Remove a restaurant");
-            Console.WriteLine("3: Back to main menu");
+            Console.WriteLine("3: Update a restaurant");
+            Console.WriteLine("4: Display restaurants");
+            Console.WriteLine("5: Back to the main menu");
             Console.Write("Enter your choice: ");
             string input = Console.ReadLine();
-
-// Создаем объекты повара, официанта и менеджера
-            Chef chef = new Chef("John", 2000, "Mon-Fri, 9am-5pm");
-            Waiter waiter = new Waiter("Emily", 1500, "Wed-Sun, 4pm-12am");
-            Manager manager = new Manager("Alice", 2500, "Mon-Sat, 10am-6pm");
             switch (input)
             {
                 case "1":
-                    Console.Write("Enter the name of the new restaurant: ");
-                    string newRestaurantName = Console.ReadLine();
-                    restaurants.Add(new Restaurant(newRestaurantName, chef));
-                    Console.WriteLine($"Restaurant '{newRestaurantName}' added.");
+                    Console.Write("Enter Restaurant Name: ");
+                    string nameToAdd = Console.ReadLine();
+                    Console.Write("Enter Chef Name: ");
+                    string chefNameToAdd = Console.ReadLine();
+                    restaurantService.AddRestaurant(nameToAdd, chefNameToAdd);
                     break;
-
                 case "2":
-                    Console.Write("Enter the number of the restaurant to remove: ");
-                    if (int.TryParse(Console.ReadLine(), out int restaurantIndex) && restaurantIndex >= 1 && restaurantIndex <= restaurants.Count)
+                    restaurantService.DisplayRestaurants();
+                    Console.Write("Enter restaurant name to remove: ");
+                    string nameToRemove = Console.ReadLine();
+                    if (restaurantService.RemoveRestaurant(nameToRemove))
                     {
-                        string removedRestaurantName = restaurants[restaurantIndex - 1].Name;
-                        restaurants.RemoveAt(restaurantIndex - 1);
-                        Console.WriteLine($"Restaurant '{removedRestaurantName}' removed.");
+                        Console.WriteLine("Restaurant removed.");
                     }
                     else
                     {
-                        Console.WriteLine("Invalid input.");
+                        Console.WriteLine("Restaurant not found.");
                     }
                     break;
                 case "3":
+                    restaurantService.DisplayRestaurants();
+                    Console.Write("Enter restaurant name to update: ");
+                    string nameToUpdate = Console.ReadLine();
+                    Console.Write("Enter new restaurant name: ");
+                    string newName = Console.ReadLine();
+                    Console.Write("Enter new chef name: ");
+                    string newChefName = Console.ReadLine();
+                    if (restaurantService.UpdateRestaurant(nameToUpdate, newName, newChefName))
+                    {
+                        Console.WriteLine("Restaurant has been updated.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Restaurant not found.");
+                    }
+                    break;
+                case "4":
+                    restaurantService.DisplayRestaurants();
+                    break;
+                case "5":
                     break;
                 default:
-                    Console.WriteLine("Invalid choice.");
+                    Console.WriteLine("INVALID CHOICE");
                     break;
             }
+
         }
 
         static void ProductOperations(ProductService productService)

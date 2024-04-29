@@ -37,10 +37,20 @@ namespace ConsoleApp1
 
         public void DisplayDishes()
         {
-            foreach (Dish dish in dishes)
+            if (dishes.Count == 0)
+            {
+                Console.WriteLine("No dishes available.");
+                return;
+            }
+
+            Console.WriteLine("Menu:");
+
+            List<Dish> sortedDishes = dishes.OrderBy(dish => dish.CalculateCost()).ToList();
+
+            foreach (Dish dish in sortedDishes)
             {
                 Console.WriteLine($"Dish: {dish.Name}");
-       
+
                 foreach (DishIngredient ingredient in dish.Ingredients)
                 {
                     Console.WriteLine($" Ingredient: {ingredient.Product.Name}, Quantity: {ingredient.QuantityUsed}");

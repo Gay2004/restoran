@@ -22,6 +22,13 @@ namespace ConsoleApp1
             products.Add(new Product("Basil", ProductType.Spice, 100, 1.00m));
         }
 
+        public decimal CalculatePriceWithService(Product product, decimal servicePercent)
+        {
+            decimal servicePrice = product.Price * (servicePercent / 100);
+            decimal totalPrice = product.Price + servicePrice;
+            return totalPrice;
+        }
+
         public void AddProduct(string name, ProductType type, decimal quantity, decimal price)
         {
             products.Add(new Product(name, type, quantity, price));
@@ -67,11 +74,14 @@ namespace ConsoleApp1
             return products.FirstOrDefault(p => p.Name == name);
         }
 
-        public void DisplayProducts()
+        public void DisplayProducts(decimal servicePercent)
         {
-            foreach (Product product in products)
+            List<Product> sortedProducts = products.OrderBy(p => p.Name).ToList();
+
+            foreach (Product product in sortedProducts)
             {
-                Console.WriteLine($"Product: {product.Name}, Type: {product.Type}, Quantity: {product.Quantity}, Price: {product.Price}");
+                decimal priceWithService = CalculatePriceWithService(product, servicePercent);
+                Console.WriteLine($"Product: {product.Name}, Type: {product.Type}, Quantity: {product.Quantity}, Price: {product.Price},Price with Service: {priceWithService}\"");
             }
         }
     }
