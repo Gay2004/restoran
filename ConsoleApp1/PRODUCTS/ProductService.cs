@@ -74,14 +74,14 @@ namespace ConsoleApp1
             return products.FirstOrDefault(p => p.Name == name);
         }
 
-        public void DisplayProducts(decimal servicePercent)
+        public void DisplayProducts()
         {
             List<Product> sortedProducts = products.OrderBy(p => p.Name).ToList();
 
             foreach (Product product in sortedProducts)
             {
-                decimal priceWithService = CalculatePriceWithService(product, servicePercent);
-                Console.WriteLine($"Product: {product.Name}, Type: {product.Type}, Quantity: {product.Quantity}, Price: {product.Price},Price with Service: {priceWithService}\"");
+                
+                Console.WriteLine($"Product: {product.Name}, Type: {product.Type}, Quantity: {product.Quantity}");
             }
         }
     }

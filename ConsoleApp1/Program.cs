@@ -1,9 +1,7 @@
 ﻿using ConsoleApp1.enums;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using ConsoleApp1.DISHES;
 
 namespace ConsoleApp1
 {
@@ -36,7 +34,7 @@ namespace ConsoleApp1
                         DishOperations(menuService, productService);
                         break;
                     case "3":
-                        RestaurantOperation(restaurantService);
+                        RestaurantOperation(restaurantService, menuService);
                         break;
                     case "4":
                         exit = true;
@@ -48,14 +46,17 @@ namespace ConsoleApp1
             }
         }
 
-        static void RestaurantOperation(RestaurantService restaurantService)
+        static void RestaurantOperation(RestaurantService restaurantService, MenuService menuService)
         {
-            Console.WriteLine("\nProduct Operations:");
+            Console.WriteLine("\nRestaurant Operations:");
             Console.WriteLine("1: Add a restaurant");
             Console.WriteLine("2: Remove a restaurant");
             Console.WriteLine("3: Update a restaurant");
             Console.WriteLine("4: Display restaurants");
-            Console.WriteLine("5: Back to the main menu");
+            Console.WriteLine("5: Enter restaurant name to add a dish");
+            Console.WriteLine("6: Display dishes for a restaurant");
+            Console.WriteLine("7: Back to the main menu");
+
             Console.Write("Enter your choice: ");
             string input = Console.ReadLine();
             switch (input)
@@ -101,12 +102,54 @@ namespace ConsoleApp1
                     restaurantService.DisplayRestaurants();
                     break;
                 case "5":
+                    restaurantService.DisplayRestaurants();
+                    Console.Write("Enter restaurant name to add a dish: ");
+                    string restaurantNameToAddDish = Console.ReadLine();
+                    Restaurant restaurantToAddDish = restaurantService.GetRestaurantByName(restaurantNameToAddDish);
+                    if (restaurantToAddDish != null)
+                    {
+                        menuService.DisplayDishes();
+                        Console.Write("Enter dish name to add: ");
+                        string dishNameToAdd = Console.ReadLine();
+                        Dish dishToAdd = menuService.GetDishByName(dishNameToAdd);
+                        if (dishToAdd != null)
+                        {
+                            if (restaurantService.AddDishToRestaurant(restaurantNameToAddDish, dishToAdd))
+                            {
+                                Console.WriteLine($"Dish '{dishNameToAdd}' added to restaurant '{restaurantNameToAddDish}'.");
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("Dish not found.");
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Restaurant not found.");
+                    }
+                    break;
+                case "6":
+                    restaurantService.DisplayRestaurants();
+                    Console.Write("Enter the name of the restaurant: ");
+                    string restaurantName = Console.ReadLine();
+                    Restaurant selectedRestaurant = restaurantService.GetRestaurantByName(restaurantName);
+                    if (selectedRestaurant != null)
+                    {
+                        Console.WriteLine($"Dishes available at {selectedRestaurant.Name}:");
+                        menuService.DisplayDishesForRestaurant(selectedRestaurant);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Restaurant not found.");
+                    }
+                    break;
+                case "7":
                     break;
                 default:
                     Console.WriteLine("INVALID CHOICE");
                     break;
             }
-
         }
 
         static void ProductOperations(ProductService productService)
@@ -253,11 +296,15 @@ namespace ConsoleApp1
                 case "2":
                     Console.Write("Enter Name of the dish: ");
                     string dishName = Console.ReadLine();
-                    Dish dish = new Dish(dishName);
+
+                   
+                    List<DishIngredient> emptyIngredients = new List<DishIngredient>();
+
+                   
+                    Dish dish = new Dish(dishName, emptyIngredients.ToString());
                     menuService.AddDish(dish);
 
                     bool addIngredients = true;
-
                     while (addIngredients)
                     {
                         Console.WriteLine("Available Products:");
@@ -270,30 +317,27 @@ namespace ConsoleApp1
                         if (product != null)
                         {
                             decimal quantity;
-                            while (true)
+                            Console.Write($"Enter Quantity of {ingredientName} in grams: ");
+                            while (!decimal.TryParse(Console.ReadLine(), out quantity) || quantity <= 0)
                             {
-                                Console.Write($"Enter Quantity of {ingredientName} in grams: ");
-                                if (decimal.TryParse(Console.ReadLine(), out quantity) && quantity > 0)
-                                {
-                                    break;
-                                }
                                 Console.WriteLine("Invalid quantity input, please enter a valid positive decimal.");
                             }
 
-                            menuService.AddIngredientToDish(dishName, product, quantity);
-                            Console.WriteLine($"Updated cost of the dish '{dishName}': {menuService.GetDishByName(dishName).CalculateCost()}");
+                         
+                            dish.AddIngredient(product, quantity);
+                            Console.WriteLine($"Updated cost of the dish '{dishName}': {dish.CalculateCost()}");
 
+                            Console.Write("Add another ingredient? (yes/no): ");
+                            string continueInput = Console.ReadLine().ToLower();
+                            addIngredients = continueInput == "yes" || continueInput == "y";
                         }
                         else
                         {
                             Console.WriteLine("Product not found.");
                         }
-
-                        Console.Write("Add another ingredient? (yes/no): ");
-                        string continueInput = Console.ReadLine().ToLower();
-                        addIngredients = continueInput == "yes" || continueInput == "y";
                     }
                     break;
+
 
                 case "3":
                     Console.Write("Enter Name of the dish to remove: ");

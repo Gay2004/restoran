@@ -7,4 +7,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Dishes" />
+    <Folder Include="RESTAURANT" />
+  </ItemGroup>
+
 </Project>
